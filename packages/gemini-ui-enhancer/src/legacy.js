@@ -2,15 +2,15 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.0.2
+// @version      1.0.3
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
 // @grant        GM_addStyle
 // @run-at       document-end
 // @homepageURL  https://github.com/chenhui-su/gemini-ui-enhancer
-// @downloadURL  https://raw.githubusercontent.com/chenhui-su/gemini-ui-enhancer/main/gemini-ui-enhancer.user.js
-// @updateURL    https://raw.githubusercontent.com/chenhui-su/gemini-ui-enhancer/main/gemini-ui-enhancer.user.js
+// @downloadURL  https://github.com/chenhui-su/web-enhancers/releases/download/gemini-ui-enhancer@1.0.3/gemini-ui-enhancer.user.js
+// @updateURL    https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/gemini-ui-enhancer/userscript.meta.js
 // ==/UserScript==
 
 (function() {
@@ -46,7 +46,7 @@
         FONTS: {
             sans: '"Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
             serif: '"Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", serif',
-            wenkai: '"LXGW WenKai Screen Web", "KaiTi", "STKaiti", serif',
+            wenkai: '"LXGW WenKai Screen", "LXGW WenKai", "KaiTi", "STKaiti", serif',
             jost: '"Jost", "Source Han Sans SC", sans-serif'
         },
         FONT_OPTIONS: [
@@ -349,26 +349,40 @@
                 }
                 
                 /* 侧边栏文本 */
-                bard-sidenav,
                 bard-sidenav .conversation-title,
+                bard-sidenav .conversation-title *,
                 bard-sidenav .bot-name,
                 bard-sidenav .gds-body-m,
                 bard-sidenav .gds-body-s,
                 bard-sidenav button,
-                bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container),
+                bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container):not(.mat-icon):not(.material-icons):not([class*="icon"]),
                 bard-sidenav .conversation-items-container,
                 .explore-gems-container .gds-body-m {
                     font-family: var(--w-font) !important;
                 }
-                bard-sidenav .conversation.selected,
-                bard-sidenav .conversation.selected *,
+                /* 仅覆盖选中会话的文本容器，避免破坏 Material Icons / SVG 图标字体。 */
                 bard-sidenav .conversation.selected .conversation-title,
-                bard-sidenav .conversation.selected .conversation-title *,
-                .conversation.selected,
-                .conversation.selected *,
+                bard-sidenav .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]),
+                bard-sidenav .conversation.selected .gds-body-m,
+                bard-sidenav .conversation.selected .gds-body-s,
+                bard-sidenav .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]),
                 .conversation.selected .conversation-title,
-                .conversation.selected .conversation-title * {
+                .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]),
+                .conversation.selected .gds-body-m,
+                .conversation.selected .gds-body-s,
+                .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]) {
                     font-family: var(--w-font) !important;
+                }
+                mat-icon,
+                mat-icon *,
+                .mat-icon,
+                .mat-icon *,
+                .material-icons,
+                .material-icons *,
+                [class*="icon"]:not(.wx-toc-item):not(.wx-font-btn):not(.wx-color-btn),
+                [class*="icon"]:not(.wx-toc-item):not(.wx-font-btn):not(.wx-color-btn) * {
+                    font-family: 'Google Symbols', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+                    font-feature-settings: 'liga' !important;
                 }
                 
                 /* 界面按钮/标签/通用文本组件 */
@@ -1186,7 +1200,7 @@
         try {
             // 1. 加载外部字体（异步 + 降级）
             Promise.all([
-                Utils.loadStylesheet('https://npm.elemecdn.com/lxgw-wenkai-screen-web/style.css'),
+                Utils.loadStylesheet('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web/style.css'),
                 Utils.loadStylesheet('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..700;1,300..700&display=swap')
             ]).catch(() => console.warn('Some fonts failed to load, using fallback'));
 
@@ -1229,7 +1243,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.0.2 loaded (Font Fix)');
+            console.log('✓ Gemini UI Enhancer v1.0.3 loaded (Font Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
