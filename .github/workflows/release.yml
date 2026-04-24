@@ -3,10 +3,13 @@ name: Release Userscript
 on:
   push:
     tags:
-      - 'page-enhancer@*'
+      - '*@*'
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,11 +18,42 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build:page
+
+      - name: Resolve release target
+        id: target
+        shell: bash
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          plugin="${tag%@*}"
+          version="${tag#*@}"
+          test -n "$plugin"
+          test -n "$version"
+          test -f "packages/$plugin/userscript.meta.js"
+          echo "plugin=$plugin" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Validate tag and metadata
+        run: npm run validate:release -- ${{ steps.target.outputs.plugin }} ${{ steps.target.outputs.version }}
+
+      - name: Build userscript
+        run: npx tsx scripts/build.ts ${{ steps.target.outputs.plugin }}
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          plugin="${{ steps.target.outputs.plugin }}"
+          version="${{ steps.target.outputs.version }}"
+          gh release create "${GITHUB_REF_NAME}" \
+            "packages/$plugin/dist/$plugin.user.js" \
+            "packages/$plugin/dist/$plugin.user.js.map" \
+            --title "$plugin $version" \
+            --notes "Automated userscript release for $plugin $version."
+
       - uses: actions/upload-artifact@v4
         with:
-          name: page-enhancer-userscript
-          path: packages/page-enhancer/dist/page-enhancer.user.js
-      - name: Publish placeholder
-        run: |
-          test -n "${{ secrets.GREASYFORK_API_KEY }}" || echo "Set GREASYFORK_API_KEY and replace this step with the GreasyFork upload call."
+          name: ${{ steps.target.outputs.plugin }}-userscript
+          path: |
+            packages/${{ steps.target.outputs.plugin }}/dist/${{ steps.target.outputs.plugin }}.user.js
+            packages/${{ steps.target.outputs.plugin }}/dist/${{ steps.target.outputs.plugin }}.user.js.map

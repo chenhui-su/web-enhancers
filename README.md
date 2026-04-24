@@ -88,6 +88,31 @@ npx tsx scripts/new-plugin.ts my-plugin
 3. 将元数据头拼接到打包代码前方。
 4. 输出 `packages/<plugin>/dist/<plugin>.user.js` 和 sourcemap。
 
+## 发布与自动更新
+
+仓库通过 GitHub Release 发布 userscript。推送形如 `<plugin>@<version>` 的 tag 后，`.github/workflows/release.yml` 会自动执行：
+
+1. 解析 tag 得到插件名和版本号。
+2. 校验 `userscript.meta.js` 中的 `@version`、`@updateURL`、`@downloadURL`。
+3. 构建目标插件。
+4. 创建 GitHub Release，并上传 `<plugin>.user.js` 和 sourcemap。
+
+以 `page-enhancer` 为例，发布命令为：
+
+```bash
+git tag page-enhancer@0.1.0
+git push origin page-enhancer@0.1.0
+```
+
+Tampermonkey 自动更新依赖两个元数据字段：
+
+```text
+@updateURL    https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/page-enhancer/userscript.meta.js
+@downloadURL  https://github.com/chenhui-su/web-enhancers/releases/download/page-enhancer@0.1.0/page-enhancer.user.js
+```
+
+发布新版本前，需要同步修改 `@version` 和 `@downloadURL` 中的 tag 版本。CI 会阻止版本不一致的 release。
+
 ## 质量要求
 
 提交前至少运行：
