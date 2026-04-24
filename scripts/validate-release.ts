@@ -13,7 +13,8 @@ const declaredVersion = readMetaValue(meta, 'version');
 const downloadUrl = readMetaValue(meta, 'downloadURL');
 const updateUrl = readMetaValue(meta, 'updateURL');
 const expectedTag = `${pluginName}@${version}`;
-const expectedDownloadUrl = `https://github.com/chenhui-su/web-enhancers/releases/download/${expectedTag}/${pluginName}.user.js`;
+const encodedTag = encodeURIComponent(expectedTag);
+const expectedDownloadUrl = `https://github.com/chenhui-su/web-enhancers/releases/download/${encodedTag}/${pluginName}.user.js`;
 const expectedUpdateUrl = `https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/${pluginName}/userscript.meta.js`;
 
 if (declaredVersion !== version) {

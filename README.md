@@ -108,7 +108,7 @@ Tampermonkey 自动更新依赖两个元数据字段：
 
 ```text
 @updateURL    https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/page-enhancer/userscript.meta.js
-@downloadURL  https://github.com/chenhui-su/web-enhancers/releases/download/page-enhancer@0.1.0/page-enhancer.user.js
+@downloadURL  https://github.com/chenhui-su/web-enhancers/releases/download/page-enhancer%400.1.0/page-enhancer.user.js
 ```
 
 发布新版本前，需要同步修改 `@version` 和 `@downloadURL` 中的 tag 版本。CI 会阻止版本不一致的 release。
@@ -126,8 +126,10 @@ Tampermonkey 自动更新依赖两个元数据字段：
 发布 tag 必须使用 `<plugin>@<version>` 格式，例如：
 
 ```text
-gemini-ui-enhancer@1.0.3
+gemini-ui-enhancer@1.0.4
 ```
+
+`@downloadURL` 中的 tag 需要进行 URL 编码，例如 `gemini-ui-enhancer@1.0.4` 写作 `gemini-ui-enhancer%401.0.4`，避免用户脚本管理器在跳转 GitHub Release 资产时解析失败。
 
 ## 质量要求
 
