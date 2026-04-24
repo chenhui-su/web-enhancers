@@ -1,0 +1,25 @@
+name: Release Userscript
+
+on:
+  push:
+    tags:
+      - 'page-enhancer@*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:page
+      - uses: actions/upload-artifact@v4
+        with:
+          name: page-enhancer-userscript
+          path: packages/page-enhancer/dist/page-enhancer.user.js
+      - name: Publish placeholder
+        run: |
+          test -n "${{ secrets.GREASYFORK_API_KEY }}" || echo "Set GREASYFORK_API_KEY and replace this step with the GreasyFork upload call."
