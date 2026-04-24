@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsx scripts/build-all.ts",
     "build:all": "tsx scripts/build-all.ts",
+    "build:gemini": "tsx scripts/build.ts gemini-ui-enhancer",
     "build:page": "tsx scripts/build.ts page-enhancer",
+    "dev:gemini": "tsx scripts/build.ts gemini-ui-enhancer --watch",
     "dev:page": "tsx scripts/build.ts page-enhancer --watch",
     "validate:release": "tsx scripts/validate-release.ts",
     "lint": "eslint .",
