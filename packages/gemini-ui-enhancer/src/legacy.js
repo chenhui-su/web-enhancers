@@ -355,14 +355,14 @@
                 bard-sidenav .gds-body-m,
                 bard-sidenav .gds-body-s,
                 bard-sidenav button,
-                bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container):not(.mat-icon):not(.material-icons):not([class*="icon"]),
+                bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container):not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l),
                 bard-sidenav .conversation-items-container,
                 .explore-gems-container .gds-body-m {
                     font-family: var(--w-font) !important;
                 }
                 /* 仅覆盖选中会话的文本容器，避免破坏 Material Icons / SVG 图标字体。 */
                 bard-sidenav .conversation.selected .conversation-title,
-                bard-sidenav .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]),
+                bard-sidenav .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l),
                 bard-sidenav .conversation.selected .gds-body-m,
                 bard-sidenav .conversation.selected .gds-body-s,
                 bard-sidenav .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]),
@@ -370,7 +370,7 @@
                 .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]),
                 .conversation.selected .gds-body-m,
                 .conversation.selected .gds-body-s,
-                .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]) {
+                .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l) {
                     font-family: var(--w-font) !important;
                 }
                 mat-icon,
@@ -1048,16 +1048,7 @@
             ConfigManager.subscribe((cfg) => {
                 StyleManager.applyTheme(cfg);
                 this.updateUIState(cfg);
-                // 动态更新布局宽度
-                document.querySelectorAll('.conversation-container, .response-container, .inner-container')
-                    .forEach(el => el.style.maxWidth = `${cfg.maxWidth}px`);
-                document.querySelectorAll('.input-area-container').forEach(el => {
-                    el.style.width = 'calc(100% - 32px)';
-                    el.style.maxWidth = `min(${cfg.maxWidth}px, calc(100% - 32px))`;
-                    el.style.marginLeft = 'auto';
-                    el.style.marginRight = 'auto';
-                    el.style.boxSizing = 'border-box';
-                });
+                // 动态更新布局宽度（依赖 CSS !important 规则，不再写 inline style 避免覆盖 toc-open 场景）
             });
         },
 
