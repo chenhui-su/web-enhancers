@@ -1,6 +1,6 @@
-# Page Enhancer Template
+# Page Enhancer
 
-This package is a minimal userscript plugin demonstrating the recommended layered pattern.
+This package is a lightweight userscript package in the monorepo. It serves as a simple page enhancement implementation and a reference for the repository's layered structure.
 
 ## Features
 
@@ -18,4 +18,4 @@ npm run build:page
 
 Install `packages/page-enhancer/dist/page-enhancer.user.js` in Tampermonkey or Violentmonkey.
 
-Before using it on a real site, update `userscript.meta.js`, especially `@match`, `@name`, `@namespace`, and grants.
+When adapting it to a real site, update `userscript.meta.js`, especially `@match`, `@name`, `@namespace`, and grants.

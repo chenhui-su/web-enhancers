@@ -1,19 +1,19 @@
 # Web Enhancers
 
-`web-enhancers` 是一个面向用户脚本和网页增强插件的 TypeScript monorepo 模板。它用于把单文件脚本逐步演进为可维护、可测试、可发布的工程化插件。
+`web-enhancers` 是一个用于集中维护各类网页界面增强插件与 userscript 的 TypeScript monorepo。仓库内的插件按包独立组织、构建、发布与更新，同时共享统一的工程规范、构建脚本与发布链路。
 
 ## 快速开始
 
 ```bash
 npm install
 npm run check
-npm run build:page
+npm run build:gemini
 ```
 
-构建后的 userscript 文件位于：
+例如，构建 `gemini-ui-enhancer` 后，userscript 文件位于：
 
 ```text
-packages/page-enhancer/dist/page-enhancer.user.js
+packages/gemini-ui-enhancer/dist/gemini-ui-enhancer.user.js
 ```
 
 可将该文件安装到 Tampermonkey、Violentmonkey 等用户脚本管理器中。
@@ -23,10 +23,11 @@ packages/page-enhancer/dist/page-enhancer.user.js
 ```text
 packages/
   common/              跨插件共享类型与工具函数
-  page-enhancer/       示例用户脚本插件
-scripts/               构建与脚手架脚本
+  gemini-ui-enhancer/  Gemini 网页端界面增强插件
+  page-enhancer/       通用页面增强插件包
+scripts/               构建、校验与脚手架脚本
 docs/                  开发文档
-.github/workflows/     CI 与发布自动化示例
+.github/workflows/     CI 与发布自动化
 ```
 
 ## 插件架构
@@ -46,9 +47,13 @@ src/
 
 ## 常用命令
 
-`npm run build:page` 构建示例插件。
+`npm run build:gemini` 构建 `gemini-ui-enhancer`。
 
-`npm run dev:page` 监听示例插件变更并自动重建。
+`npm run dev:gemini` 监听 `gemini-ui-enhancer` 变更并自动重建。
+
+`npm run build:page` 构建 `page-enhancer`。
+
+`npm run dev:page` 监听 `page-enhancer` 变更并自动重建。
 
 `npm run build:all` 构建除 `common` 外的所有插件包。
 
@@ -97,21 +102,21 @@ npx tsx scripts/new-plugin.ts my-plugin
 3. 构建目标插件。
 4. 创建 GitHub Release，并上传 `<plugin>.user.js` 和 sourcemap。
 
-以 `page-enhancer` 为例，发布命令为：
+以 `gemini-ui-enhancer` 为例，发布命令为：
 
 ```bash
-git tag page-enhancer@0.1.0
-git push origin page-enhancer@0.1.0
+git tag gemini-ui-enhancer@1.0.13
+git push origin gemini-ui-enhancer@1.0.13
 ```
 
 Tampermonkey 自动更新依赖两个元数据字段：
 
 ```text
-@updateURL    https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/page-enhancer/userscript.meta.js
-@downloadURL  https://github.com/chenhui-su/web-enhancers/releases/download/page-enhancer%400.1.0/page-enhancer.user.js
+@updateURL    https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/gemini-ui-enhancer/userscript.meta.js
+@downloadURL  https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/gemini-ui-enhancer/src/legacy.js
 ```
 
-发布新版本前，需要同步修改 `@version` 和 `@downloadURL` 中的 tag 版本。CI 会阻止版本不一致的 release。
+发布新版本前，需要同步修改 `@version`。如果插件使用 release 资产作为 `@downloadURL`，还需要同步其中的 tag 版本；CI 会阻止版本不一致的 release。
 
 ## 版本号规范
 
@@ -129,7 +134,7 @@ Tampermonkey 自动更新依赖两个元数据字段：
 gemini-ui-enhancer@1.0.4
 ```
 
-`@downloadURL` 中的 tag 需要进行 URL 编码，例如 `gemini-ui-enhancer@1.0.4` 写作 `gemini-ui-enhancer%401.0.4`，避免用户脚本管理器在跳转 GitHub Release 资产时解析失败。
+如果插件使用 GitHub Release 资产作为 `@downloadURL`，其中的 tag 需要进行 URL 编码，例如 `gemini-ui-enhancer@1.0.4` 写作 `gemini-ui-enhancer%401.0.4`，避免用户脚本管理器在跳转 release 资产时解析失败。
 
 ## 质量要求
 

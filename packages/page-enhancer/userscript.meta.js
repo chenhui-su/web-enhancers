@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Page Enhancer Template
+// @name         Page Enhancer
 // @namespace    https://github.com/chenhui-su/web-enhancers
 // @version      0.1.0
-// @description  A TypeScript userscript template with layered architecture.
+// @description  A lightweight page enhancement userscript package in the web-enhancers monorepo.
 // @author       chenhui-su
 // @match        https://example.com/*
 // @updateURL    https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/page-enhancer/userscript.meta.js
