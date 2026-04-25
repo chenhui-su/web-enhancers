@@ -14,15 +14,18 @@ const downloadUrl = readMetaValue(meta, 'downloadURL');
 const updateUrl = readMetaValue(meta, 'updateURL');
 const expectedTag = `${pluginName}@${version}`;
 const encodedTag = encodeURIComponent(expectedTag);
-const expectedDownloadUrl = `https://github.com/chenhui-su/web-enhancers/releases/download/${encodedTag}/${pluginName}.user.js`;
+const expectedReleaseDownloadUrl = `https://github.com/chenhui-su/web-enhancers/releases/download/${encodedTag}/${pluginName}.user.js`;
+const expectedStableDownloadUrl = `https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/${pluginName}/src/legacy.js`;
 const expectedUpdateUrl = `https://raw.githubusercontent.com/chenhui-su/web-enhancers/main/packages/${pluginName}/userscript.meta.js`;
 
 if (declaredVersion !== version) {
   throw new Error(`@version ${declaredVersion} does not match release tag version ${version}`);
 }
 
-if (downloadUrl !== expectedDownloadUrl) {
-  throw new Error(`@downloadURL must be ${expectedDownloadUrl}`);
+if (downloadUrl !== expectedReleaseDownloadUrl && downloadUrl !== expectedStableDownloadUrl) {
+  throw new Error(
+    `@downloadURL must be ${expectedReleaseDownloadUrl} or ${expectedStableDownloadUrl}`,
+  );
 }
 
 if (updateUrl !== expectedUpdateUrl) {
