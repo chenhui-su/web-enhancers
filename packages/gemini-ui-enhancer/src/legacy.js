@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.0.7
+// @version      1.0.8
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -574,27 +574,15 @@
                 }
                 
                 /* === 用户消息操作按钮定位修复 === */
-                .user-query-bubble-with-background, .user-query-container .query-content {
-                    position: relative !important;
-                    padding-right: 44px !important;
+                .user-query-container .message-actions, .user-query-container .action-buttons,
+                .user-query-container [class*="actions"] {
+                    position: static !important; top: auto !important; right: auto !important;
+                    background: transparent !important; backdrop-filter: none !important;
+                    border-radius: 0 !important; padding: 0 !important; margin: 0 !important;
+                    opacity: 1 !important; transform: none !important; display: inline-flex !important;
                 }
-                .user-query-container .message-actions,
-                .user-query-container .action-buttons {
-                    position: absolute !important;
-                    top: 8px !important;
-                    right: 8px !important;
-                    left: auto !important;
-                    margin: 0 !important;
-                    padding: 0 !important;
-                    background: transparent !important;
-                    backdrop-filter: none !important;
-                    border-radius: 0 !important;
-                    opacity: 1 !important;
-                    transform: none !important;
-                    display: inline-flex !important;
-                    gap: 4px !important;
-                    width: auto !important;
-                    max-width: none !important;
+                .user-query-bubble-with-background, .user-query-container .query-content {
+                    padding-right: 0 !important;
                 }
                 
                 /* === 悬浮球样式 === */
@@ -1246,7 +1234,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.0.7 loaded (Font Fix)');
+            console.log('✓ Gemini UI Enhancer v1.0.8 loaded (Font Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
