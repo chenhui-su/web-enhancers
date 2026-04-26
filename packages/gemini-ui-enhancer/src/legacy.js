@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.0.13
+// @version      1.0.14
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -321,8 +321,8 @@
                 .model-response-text h4,
                 .model-response-text h5,
                 .model-response-text h6,
-                .model-response-text div:not(.katex):not(.MathJax):not(mjx-container):not(.code-container):not(pre):not(code),
-                .model-response-text span:not(.katex):not(.MathJax):not(mjx-container) {
+                .model-response-text div:not(.katex):not(.MathJax):not(mjx-container):not(.math):not(.mwe-math-element):not([class*="katex"]):not([class*="MathJax"]):not([class*="math"]):not(.code-container):not(pre):not(code),
+                .model-response-text span:not(.katex):not(.MathJax):not(mjx-container):not(.math):not(.mwe-math-element):not([class*="katex"]):not([class*="MathJax"]):not([class*="math"]) {
                     font-family: var(--w-font) !important;
                 }
                 
@@ -423,13 +423,15 @@
                 .katex, .katex *,
                 .MathJax, .MathJax *,
                 mjx-container, mjx-container *,
+                math, math *,
                 .math, .math *,
                 .mwe-math-element, .mwe-math-element *,
                 [class*="katex"], [class*="katex"] *,
-                [class*="MathJax"], [class*="MathJax"] * {
-                    font-family: initial !important;
-                    font-style: normal !important;
-                    font-weight: normal !important;
+                [class*="MathJax"], [class*="MathJax"] *,
+                [class*="math"], [class*="math"] * {
+                    font-family: revert !important;
+                    font-style: revert !important;
+                    font-weight: revert !important;
                     font-feature-settings: normal !important;
                     font-variation-settings: normal !important;
                 }
@@ -1245,7 +1247,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.0.13 loaded (Font Fix)');
+            console.log('✓ Gemini UI Enhancer v1.0.14 loaded (Font Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
