@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.1.2
+// @version      1.1.3
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -497,7 +497,7 @@
                 }
                 bard-sidenav, bard-sidenav span, bard-sidenav mat-icon, .conversation-title,
                 .bot-name, .gds-body-m { color: var(--w-sidebar-text) !important; }
-                .user-query-bubble-with-background, .user-query-container .query-content {
+                .user-query-bubble-with-background {
                     background-color: var(--w-accent-bg) !important;
                     color: var(--w-accent-text) !important;
                     border-radius: 16px !important;
@@ -622,7 +622,7 @@
                     border-radius: 0 !important; padding: 0 !important; margin: 0 !important;
                     opacity: 1 !important; transform: none !important;
                 }
-                .user-query-bubble-with-background, .user-query-container .query-content {
+                .user-query-bubble-with-background {
                     padding-right: 0 !important;
                 }
                 
@@ -1280,7 +1280,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.1.2 loaded (Prompt Bubble & Maintenance Notes)');
+            console.log('✓ Gemini UI Enhancer v1.1.3 loaded (Prompt Bubble Width Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
