@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.1.0
+// @version      1.1.1
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -47,7 +47,8 @@
             sans: '"Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
             serif: '"Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", serif',
             wenkai: '"LXGW WenKai Screen", "LXGW WenKai", "KaiTi", "STKaiti", serif',
-            jost: '"Jost", "Source Han Sans SC", sans-serif'
+            jost: '"Jost", "Source Han Sans SC", sans-serif',
+            mono: 'ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace'
         },
         FONT_OPTIONS: [
             { id: 'sans', name: '思源黑体' },
@@ -405,14 +406,14 @@
                     font-family: var(--w-font) !important;
                 }
                 
-                /* === 代码块字体隔离：强制继承网页默认等宽字体 === */
+                /* === 代码块字体隔离：显式使用等宽字体栈 === */
                 code, code *,
                 pre, pre *,
                 .code-container, .code-container *,
                 .code-block, .code-block *,
                 .highlight, .highlight *,
                 .code-container pre, .code-container code {
-                    font-family: initial !important;
+                    font-family: ${CONSTANTS.FONTS.mono} !important;
                     font-feature-settings: normal !important;
                     font-variation-settings: normal !important;
                 }
@@ -509,6 +510,12 @@
                 }
                 body[data-theme="dark"] h3, body[data-theme="dark"] ul, body[data-theme="dark"] ol,
                 body[data-theme="dark"] li::marker { color: #e0e0e0 !important; }
+                .mat-mdc-tooltip,
+                .mdc-tooltip,
+                .cdk-overlay-pane:has(.mat-mdc-tooltip),
+                .cdk-overlay-pane:has(.mdc-tooltip) {
+                    pointer-events: none !important;
+                }
                 hallucination-disclaimer, .hallucination-disclaimer, .footer-container {
                     display: var(--w-footer-display) !important; opacity: 0.3;
                 }
@@ -1266,7 +1273,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.1.0 loaded (Layout & Font Refresh)');
+            console.log('✓ Gemini UI Enhancer v1.1.1 loaded (Tooltip & Code Font Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
