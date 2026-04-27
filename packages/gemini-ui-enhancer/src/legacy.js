@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.0.17
+// @version      1.1.0
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -309,9 +309,9 @@
                     --w-pub-text-on-high: inherit;
                 }
                 
-                /* === 全局字体基座：高权重选择器 + 排除法 === */
-                
-                /* 正文内容：逐层覆盖模型回复区域 */
+                /* === 字体白名单：按模块显式覆盖，避免误伤公式/图标 === */
+
+                /* 模型回复正文 */
                 .model-response-text p,
                 .model-response-text li,
                 .model-response-text h1,
@@ -319,18 +319,22 @@
                 .model-response-text h3,
                 .model-response-text h4,
                 .model-response-text h5,
-                .model-response-text h6 {
+                .model-response-text h6,
+                .model-response-text blockquote,
+                .model-response-text blockquote p,
+                .model-response-text table,
+                .model-response-text table th,
+                .model-response-text table td {
                     font-family: var(--w-font) !important;
                 }
-                
-                /* 用户查询文本 */
-                .query-text-line,
-                .user-query-container .query-content,
-                .user-query-container .query-text-line,
-                .query-text.gds-body-l {
+
+                /* 用户消息 */
+                .user-query-bubble-with-background,
+                .user-query-container .query-text.gds-body-l,
+                .user-query-container .query-text-line {
                     font-family: var(--w-font) !important;
                 }
-                
+
                 /* 输入框 + Placeholder（含 Hint） */
                 .ql-editor, .ql-editor *,
                 .text-input-field, .text-input-field *,
@@ -345,16 +349,25 @@
                     opacity: 0.6;
                 }
                 
-                /* 侧边栏文本 */
+                /* 侧边栏与顶部标题 */
                 bard-sidenav .conversation-title,
                 bard-sidenav .conversation-title *,
+                bard-sidenav .title-container,
+                bard-sidenav .title-container *,
                 bard-sidenav .bot-name,
+                bard-sidenav .gds-label-l,
                 bard-sidenav .gds-body-m,
                 bard-sidenav .gds-body-s,
-                bard-sidenav button,
                 bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container):not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l),
+                bard-sidenav .mat-mdc-list-item-content,
+                bard-sidenav .mdc-list-item__content,
                 bard-sidenav .conversation-items-container,
-                .explore-gems-container .gds-body-m {
+                .explore-gems-container .gds-body-m,
+                .explore-gems-container .gds-label-l,
+                .conversation-title-container .gds-title-m,
+                .conversation-title-container .gds-label-l,
+                .top-bar-actions .gds-title-m,
+                .top-bar-actions .gds-label-l {
                     font-family: var(--w-font) !important;
                 }
                 /* 仅覆盖选中会话的文本容器，避免破坏 Material Icons / SVG 图标字体。 */
@@ -380,18 +393,6 @@
                 [class*="icon"]:not(.wx-toc-item):not(.wx-font-btn):not(.wx-color-btn) * {
                     font-family: 'Google Symbols', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
                     font-feature-settings: 'liga' !important;
-                }
-                
-                /* 界面按钮/标签/通用文本组件 */
-                .mdc-button, .mdc-button span,
-                .mat-mdc-button, .mat-mdc-button span,
-                .gds-headline, .gds-title, 
-                .gds-subtitle, .gds-caption,
-                .gds-body-m, .gds-body-s, .gds-body-l,
-                [role="button"] span,
-                .action-button-text,
-                .mat-mdc-list-item-content {
-                    font-family: var(--w-font) !important;
                 }
                 
                 /* 目录面板 / 设置面板 */
@@ -432,7 +433,7 @@
                     font-variation-settings: normal !important;
                 }
                 
-                /* === 背景/布局/交互样式（保持原有逻辑） === */
+                /* === 背景/布局/交互样式 === */
                 :root, body, .theme-host, :where(.theme-host) {
                     --bard-color-synthetic--chat-window-surface: var(--w-bg) !important;
                     --gem-sys-color--surface: var(--w-bg) !important;
@@ -455,11 +456,23 @@
                 .input-gradient, input-container.input-gradient { background: transparent !important; pointer-events: auto !important; }
                 .top-gradient-container, .scroll-container::after, .scroll-container::before { display: none !important; }
                 .input-area-container {
+                    box-sizing: border-box !important;
+                    padding-bottom: 40px !important;
+                }
+                .input-area-container.is-zero-state {
+                    position: absolute !important;
+                    left: 50% !important;
+                    bottom: 50vh !important;
+                    width: min(var(--w-max-width, 900px), calc(100% - 32px)) !important;
+                    max-width: min(var(--w-max-width, 900px), calc(100% - 32px)) !important;
+                    margin: 0 !important;
+                    transform: translate(-50%, 50%) !important;
+                }
+                .input-area-container:not(.is-zero-state) {
+                    position: relative !important;
                     width: calc(100% - 32px) !important;
                     max-width: min(var(--w-max-width, 900px), calc(100% - 32px)) !important;
-                    padding-bottom: 40px !important;
                     margin: 0 auto 10px auto !important;
-                    box-sizing: border-box !important;
                 }
                 .input-area {
                     border-radius: 32px !important;
@@ -503,6 +516,11 @@
                 .conversation-container, .response-container, .inner-container {
                     max-width: var(--w-max-width, 900px) !important; margin: 0 auto !important;
                     transition: max-width 0.4s ease, margin 0.4s ease, width 0.4s ease !important;
+                }
+                .conversation-container,
+                .response-container,
+                .input-area-container:not(.is-zero-state) {
+                    width: min(100%, var(--w-max-width, 900px)) !important;
                 }
                 body.toc-open main { padding-right: 320px !important; }
                 body.toc-open .conversation-container, body.toc-open .response-container,
@@ -706,7 +724,12 @@
 
         _updateDynamicCSS(fontSize) {
             this.dynamicStyleEl.textContent = `
-                main p, .model-response-text p { font-size: ${fontSize}px !important; }
+                .model-response-text p,
+                .model-response-text li,
+                .model-response-text blockquote p,
+                .user-query-container .query-text-line {
+                    font-size: ${fontSize}px !important;
+                }
             `;
         },
 
@@ -1243,7 +1266,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.0.17 loaded (Font Fix)');
+            console.log('✓ Gemini UI Enhancer v1.1.0 loaded (Layout & Font Refresh)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
