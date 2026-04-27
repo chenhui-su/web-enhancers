@@ -3,7 +3,7 @@
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
 // @namespace    https://github.com/chenhui-su/web-enhancers
-// @version      1.0.15
+// @version      1.0.16
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*

@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.0.15
+// @version      1.0.16
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -312,7 +312,6 @@
                 /* === 全局字体基座：高权重选择器 + 排除法 === */
                 
                 /* 正文内容：逐层覆盖模型回复区域 */
-                .model-response-text,
                 .model-response-text p,
                 .model-response-text li,
                 .model-response-text h1,
@@ -1245,7 +1244,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.0.15 loaded (Font Fix)');
+            console.log('✓ Gemini UI Enhancer v1.0.16 loaded (Font Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
