@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.1.4
+// @version      1.1.5
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -359,7 +359,7 @@
                 bard-sidenav .gds-label-l,
                 bard-sidenav .gds-body-m,
                 bard-sidenav .gds-body-s,
-                bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container):not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l),
+                bard-sidenav span:not(.katex):not(.MathJax):not(mjx-container):not(.mat-icon):not(.material-icons):not(.google-symbols):not(.mat-ligature-font):not([fonticon]):not(.action-button-icon):not(.gds-label-l),
                 bard-sidenav .mat-mdc-list-item-content,
                 bard-sidenav .mdc-list-item__content,
                 bard-sidenav .conversation-items-container,
@@ -373,27 +373,33 @@
                 }
                 /* 仅覆盖选中会话的文本容器，避免破坏 Material Icons / SVG 图标字体。 */
                 bard-sidenav .conversation.selected .conversation-title,
-                bard-sidenav .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l),
+                bard-sidenav .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not(.google-symbols):not(.mat-ligature-font):not([fonticon]):not(.action-button-icon):not(.gds-label-l),
                 bard-sidenav .conversation.selected .gds-body-m,
                 bard-sidenav .conversation.selected .gds-body-s,
-                bard-sidenav .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]),
+                bard-sidenav .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not(.google-symbols):not(.mat-ligature-font):not([fonticon]):not(.action-button-icon),
                 .conversation.selected .conversation-title,
-                .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not([class*="icon"]),
+                .conversation.selected .conversation-title span:not(.mat-icon):not(.material-icons):not(.google-symbols):not(.mat-ligature-font):not([fonticon]):not(.action-button-icon),
                 .conversation.selected .gds-body-m,
                 .conversation.selected .gds-body-s,
-                .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not([class*="icon"]):not(.gds-label-l) {
+                .conversation.selected [class*="title"]:not(.mat-icon):not(.material-icons):not(.google-symbols):not(.mat-ligature-font):not([fonticon]):not(.action-button-icon):not(.gds-label-l) {
                     font-family: var(--w-font) !important;
                 }
                 mat-icon,
                 mat-icon *,
                 .mat-icon,
                 .mat-icon *,
+                .google-symbols,
+                .google-symbols *,
+                .mat-ligature-font,
+                .mat-ligature-font *,
+                [fonticon],
+                [fonticon] *,
+                .action-button-icon,
+                .action-button-icon *,
                 .material-icons,
-                .material-icons *,
-                [class*="icon"]:not(.wx-toc-item):not(.wx-font-btn):not(.wx-color-btn),
-                [class*="icon"]:not(.wx-toc-item):not(.wx-font-btn):not(.wx-color-btn) * {
+                .material-icons * {
                     font-family: 'Google Symbols', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
-                    font-feature-settings: 'liga' !important;
+                    font-feature-settings: 'liga' 1 !important;
                 }
                 
                 /* 目录面板 / 设置面板 */
@@ -1280,7 +1286,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.1.4 loaded (WenKai Mono)');
+            console.log('✓ Gemini UI Enhancer v1.1.5 loaded (Icon Ligature Fix)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
