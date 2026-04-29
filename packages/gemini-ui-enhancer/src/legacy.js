@@ -2,7 +2,7 @@
 // @name         Gemini UI Enhancer | Gemini 界面增强
 // @name:zh-CN   Gemini 界面增强
 // @name:en      Gemini UI Enhancer
-// @version      1.1.3
+// @version      1.1.4
 // @license      MIT
 // @description  Gemini 网页端界面优化：侧边目录生成、Markdown/公式渲染修复、深色模式适配、护眼排版样式注入。[字体修复版]
 // @match        https://gemini.google.com/*
@@ -46,7 +46,7 @@
         FONTS: {
             sans: '"Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
             serif: '"Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", serif',
-            wenkai: '"LXGW WenKai Screen", "LXGW WenKai", "KaiTi", "STKaiti", serif',
+            wenkai: '"LXGW WenKai Mono", "LXGW WenKai Screen", "LXGW WenKai", "KaiTi", "STKaiti", monospace',
             jost: '"Jost", "Source Han Sans SC", sans-serif',
             mono: 'ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace'
         },
@@ -1280,7 +1280,7 @@
                 setTimeout(() => TocManager.toggle(), 500);
             }
 
-            console.log('✓ Gemini UI Enhancer v1.1.3 loaded (Prompt Bubble Width Fix)');
+            console.log('✓ Gemini UI Enhancer v1.1.4 loaded (WenKai Mono)');
         } catch (e) {
             console.error('Gemini UI Enhancer init failed:', e);
         }
